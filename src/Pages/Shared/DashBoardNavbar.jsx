@@ -2,13 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai'
 
-const Navbar = () => {
+const DashBoardNavbar = () => {
     const navlist = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/upload'>Upload</NavLink></li>
     </>
-    const location= useLocation().pathname.split('/')[1]
-
     const [isOpen, setIsOpen] = useState(false)
     const toggleOpen = useCallback(() => {
       setIsOpen(value => !value)
@@ -34,18 +32,6 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end relative">
-  
-  {
-    location === 'login' || location === 'register' ? <NavLink
-      to='/login'
-       className={`mr-4 px-4 rounded py-2 bg-rose-600 text-white  transition font-semibold`}>Login
-  </NavLink>:
-  <NavLink
-      to='/login'
-       className={`mr-4 px-4 rounded py-2 hover:bg-neutral-100 transition font-semibold`}>Login
-  </NavLink>
-  }
-  
   <div
           onClick={toggleOpen}
           className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
@@ -59,10 +45,10 @@ const Navbar = () => {
         <div className='absolute rounded-xl shadow-md w-[40vw] lg:w-[10vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm'>
           <div className='flex flex-col cursor-pointer'>
             <Link
-                 to='/dashboard'
+                 to='/'
                   className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
                 >
-                  DashBoard
+                  Home
             </Link>
               <Link
                 className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
@@ -81,4 +67,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default DashBoardNavbar;
