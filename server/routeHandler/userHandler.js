@@ -15,7 +15,8 @@ router.get('/',async(req,res)=>{
 // get a user by email
 
 router.get('/:email',async(req,res)=>{
-    
+    const result = await User.findOne({Email: req.params.email})
+    res.send(result)
 })
 
 

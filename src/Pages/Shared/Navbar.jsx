@@ -2,9 +2,12 @@ import React, { useCallback, useContext, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai'
 import { AuthContext } from '../../Provider/AuthProvider';
+import useUser from '../../hooks/useUser/useUser';
 
 const Navbar = () => {
   const {userDetails,logOut} = useContext(AuthContext)
+  const [isUser,refetch,] = useUser()
+  
     const navlist = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/upload'>Upload</NavLink></li>

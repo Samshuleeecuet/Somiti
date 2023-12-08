@@ -86,7 +86,7 @@ const SignUp = () => {
                     DeleteUser()
                   }
                   if(result.insertedId){
-                    setuserDetails([result])
+                    setuserDetails(result)
                     navigate(from, { replace: true })
                   }
                 })

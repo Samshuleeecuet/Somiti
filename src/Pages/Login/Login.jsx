@@ -1,16 +1,58 @@
-import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { TbFidgetSpinner } from 'react-icons/tb'
+import { AuthContext } from '../../Provider/AuthProvider';
+import useUser from '../../hooks/useUser/useUser';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const emailRef = useRef()
+    const { loading,setuserDetails, setLoading, signIn, resetPassword } =
+    useContext(AuthContext)
+    const [isUser,refetch,] = useUser()
+    const location = useLocation()
+    const navigate = useNavigate()
+  const from = location.state?.from?.pathname || '/'
   // Handle submit
   const handleSubmit = event => {
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
-    console.log(email, password)
+    signIn(email,password)
+    .then(result=>{
+      refetch()
+      if(isUser){
+        fetch(`http://localhost:5000/user/${email}`)
+                .then(res=> res.json())
+                .then(result=>{
+                  setuserDetails(result)
+      })
+        toast.success('Login Successfully')
+          navigate(from, { replace: true })
+      }
+    })
+    .catch(err => {
+      setLoading(false)
+      toast.error((err.message.split('/')[1]).slice(0,length-2))
+    })
   }
+
+  //   handle password reset
+  const handleReset = () => {
+    const email = emailRef.current.value
+
+    resetPassword(email)
+      .then(() => {
+        toast.success('Please check your email for reset link')
+        setLoading(false)
+      })
+      .catch(err => {
+        setLoading(false)
+        toast.error(err.message)
+      })
+  }
+
+
     return (
         <div className='flex justify-center font-NovaSquare mt-[5%] items-center min-h-screen'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -64,18 +106,17 @@ const Login = () => {
               type='submit'
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
-            Login
-              {/* {true ? (
+              {loading ? (
                 <TbFidgetSpinner className='m-auto animate-spin' size={24} />
               ) : (
                 'Continue'
-              )} */}
+              )}
             </button>
           </div>
         </form>
         <div className='space-y-1'>
           <button
-            onClick=''
+            onClick={handleReset}
             className='text-xs hover:underline hover:text-rose-500 text-gray-400'
           >
             Forgot password?
