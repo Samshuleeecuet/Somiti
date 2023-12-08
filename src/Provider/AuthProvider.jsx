@@ -24,11 +24,13 @@ const googleProvider = new GoogleAuthProvider()
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
-    
+  const [userDetails,setuserDetails] = useState([])
   const createUser = (email, password) => {
     setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password)
   }
+
+  
 
   const signIn = (email, password) => {
     setLoading(true)
@@ -47,6 +49,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true)
+    setuserDetails([])
     return signOut(auth)
   }
 
@@ -64,6 +67,9 @@ const AuthProvider = ({ children }) => {
     })
   }
 
+  console.log('User',user,'userDetails',userDetails)
+  
+
   const DeleteUser = ()=>{
     return deleteUser(auth.currentUser)
   }
@@ -76,18 +82,18 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser)
-      if(currentUser){
-        setLoading(true)
-        axios.post('https://spi-printer.vercel.app/jwt',{email:createUser?.email})
-        .then(data=>{
-          const token = data.data.token;
-          localStorage.setItem('access-token',token)
-          setLoading(false)
-      })
+  //     if(currentUser){
+  //       setLoading(true)
+  //       axios.post('https://spi-printer.vercel.app/jwt',{email:createUser?.email})
+  //       .then(data=>{
+  //         const token = data.data.token;
+  //         localStorage.setItem('access-token',token)
+  //         setLoading(false)
+  //     })
         
-  }else{
-      localStorage.removeItem('access-token')
-      }
+  // }else{
+  //     localStorage.removeItem('access-token')
+  //     }
     })
     return () => {
       return unsubscribe()
@@ -95,6 +101,8 @@ const AuthProvider = ({ children }) => {
   }, [])
   const authInfo = {
     user,
+    userDetails,
+    setuserDetails,
     loading,
     setLoading,
     createUser,

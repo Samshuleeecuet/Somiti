@@ -1,8 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai'
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const Navbar = () => {
+  const {userDetails,logOut} = useContext(AuthContext)
     const navlist = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/upload'>Upload</NavLink></li>
@@ -64,11 +66,12 @@ const Navbar = () => {
                 >
                   DashBoard
             </Link>
-              <Link
+              <p
+              onClick={()=> logOut()}
                 className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
               >
                 Logout
-              </Link>
+              </p>
 
         
           </div>

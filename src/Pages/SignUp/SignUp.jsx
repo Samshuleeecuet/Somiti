@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { TbFidgetSpinner } from 'react-icons/tb';
 import { FaEye,FaEyeSlash } from "react-icons/fa";
 import toast from 'react-hot-toast';
-const img_hosting_token = import.meta.env.VITE_Image_Upload;
+import { AuthContext } from '../../Provider/AuthProvider';
+const img_hosting_token = "d3353ef1c772b719128d8b9004b1d8c2";
 const SignUp = () => {
+  const {
+    loading,
+    setLoading,
+    verifyEmail,
+    userDetails,
+    setuserDetails,
+    createUser,
+    updateUserProfile,
+    updateUserProfile1,
+    DeleteUser
+  } = useContext(AuthContext)
+
+
     const navigate = useNavigate()
       const location = useLocation()
       const from = location.state?.from?.pathname || '/'
@@ -33,7 +47,69 @@ const SignUp = () => {
         const image = event.target.image.files[0]
         const formData = new FormData()
         formData.append('image', image)
-        const userData ={name:name,email:email,nationalId:nationalid,phone:phonenumber,role:'user',approved:'pending'}
+          fetch(img_hosting_url, {
+            method: 'POST',
+            body: formData
+          })
+          .then(res=> res.json())
+          .then(imageData=>{
+            const imageUrl = imageData.data.display_url
+            createUser(email,password)
+            .then(result=>{
+              const user = result.user
+              console.log('Create Successfully')
+              updateUserProfile(user,name,imageUrl,phonenumber)
+              .then(()=>{
+                const userData ={
+                  Name : name,
+                  Image : imageUrl,
+                  Phonenumber : phonenumber,
+                  Nationalid : nationalid,
+                  Email : email,
+                  Password : password,
+                  Role: 'user',
+                  Approved : 'pending'}
+
+                console.log('Updated Successfully')
+                fetch('http://localhost:5000/user',{
+                  method: 'POST',
+                  headers:{
+                    'content-type': 'application/json'
+                  },
+                  body: JSON.stringify(userData)
+                })
+                .then(res=> res.json())
+                .then(result=>{
+                  console.log(result)
+                  if(result.message){
+                    toast.error(result.message)
+                    DeleteUser()
+                  }
+                  if(result.insertedId){
+                    setuserDetails([result])
+                    navigate(from, { replace: true })
+                  }
+                })
+                
+                
+                
+                
+              })
+              .catch(err => {
+                setLoading(false)
+                toast.error(err.message)
+              })
+            })
+            .catch(err => {
+              setLoading(false)
+              toast.error(err.message)
+            })
+          })
+          .catch(err => {
+            setLoading(false)
+            toast.error(err.message)
+          })
+        const userData ={name:name,email:email,image:imageUrl,nationalId:nationalid,phone:phonenumber,approved:'pending'}
         console.log(userData)
     }
     return (
