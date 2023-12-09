@@ -4,20 +4,19 @@ import { TbFidgetSpinner } from 'react-icons/tb';
 import { FaEye,FaEyeSlash } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../Provider/AuthProvider';
+import useUser from '../../hooks/useUser/useUser';
 const img_hosting_token = "d3353ef1c772b719128d8b9004b1d8c2";
 const SignUp = () => {
   const {
     loading,
     setLoading,
     verifyEmail,
-    userDetails,
-    setuserDetails,
     createUser,
     updateUserProfile,
     updateUserProfile1,
     DeleteUser
   } = useContext(AuthContext)
-
+  const [isUser,refetch,] = useUser()
 
     const navigate = useNavigate()
       const location = useLocation()
@@ -86,14 +85,10 @@ const SignUp = () => {
                     DeleteUser()
                   }
                   if(result.insertedId){
-                    setuserDetails(result)
-                    navigate(from, { replace: true })
+                    refetch()
                   }
+                  navigate(from, { replace: true })
                 })
-                
-                
-                
-                
               })
               .catch(err => {
                 setLoading(false)

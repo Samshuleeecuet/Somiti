@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 const Login = () => {
     const emailRef = useRef()
-    const { loading,setuserDetails, setLoading, signIn, resetPassword } =
+    const { loading, setLoading, signIn, resetPassword } =
     useContext(AuthContext)
     const [isUser,refetch,] = useUser()
     const location = useLocation()
@@ -22,11 +22,6 @@ const Login = () => {
     .then(result=>{
       refetch()
       if(isUser){
-        fetch(`http://localhost:5000/user/${email}`)
-                .then(res=> res.json())
-                .then(result=>{
-                  setuserDetails(result)
-      })
         toast.success('Login Successfully')
           navigate(from, { replace: true })
       }

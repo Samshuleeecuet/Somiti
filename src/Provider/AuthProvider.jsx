@@ -24,7 +24,6 @@ const googleProvider = new GoogleAuthProvider()
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [userDetails,setuserDetails] = useState({})
   const createUser = (email, password) => {
     setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password)
@@ -49,7 +48,6 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true)
-    setuserDetails([])
     return signOut(auth)
   }
 
@@ -67,7 +65,7 @@ const AuthProvider = ({ children }) => {
     })
   }
 
-  console.log('User',user,'userDetails',userDetails)
+  console.log('User',user)
   
 
   const DeleteUser = ()=>{
@@ -101,8 +99,6 @@ const AuthProvider = ({ children }) => {
   }, [])
   const authInfo = {
     user,
-    userDetails,
-    setuserDetails,
     loading,
     setLoading,
     createUser,

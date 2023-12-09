@@ -3,9 +3,10 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai'
 import { AuthContext } from '../../Provider/AuthProvider';
 import useUser from '../../hooks/useUser/useUser';
+import AvatarImg from '../../assets/placeholder.jpg';
 
 const Navbar = () => {
-  const {userDetails,logOut} = useContext(AuthContext)
+  const {user,logOut} = useContext(AuthContext)
   const [isUser,refetch,] = useUser()
   
     const navlist = <>
@@ -18,7 +19,7 @@ const Navbar = () => {
     const toggleOpen = useCallback(() => {
       setIsOpen(value => !value)
     }, [])
-
+    console.log(isUser)
     return (
         <div>
             <div className="navbar px-10 bg-gray-400 border-[1px] border-neutral-200 font-NovaSquare">
@@ -41,6 +42,7 @@ const Navbar = () => {
   <div className="navbar-end relative">
   
   {
+    !user && (
     location === 'login' || location === 'register' ? <NavLink
       to='/login'
        className={`mr-4 px-4 rounded py-2 bg-rose-600 text-white  transition font-semibold`}>Login
@@ -48,19 +50,21 @@ const Navbar = () => {
   <NavLink
       to='/login'
        className={`mr-4 px-4 rounded py-2 hover:bg-neutral-100 transition font-semibold`}>Login
-  </NavLink>
+  </NavLink>)
   }
-  
+  {
+    user && 
   <div
           onClick={toggleOpen}
           className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
         >
           <AiOutlineMenu />
           <div>
-            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" className='rounded-full' alt='profile' height='30' width='30' />
+            <img src={isUser?.Image ||AvatarImg} className='rounded-full' alt='profile' height='30' width='30' />
             </div>
   </div>
-    {isOpen && (
+  }
+    {user && isOpen && (
         <div className='absolute rounded-xl shadow-md w-[40vw] lg:w-[10vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm'>
           <div className='flex flex-col cursor-pointer'>
             <Link
@@ -75,11 +79,10 @@ const Navbar = () => {
               >
                 Logout
               </p>
-
-        
           </div>
         </div>
         )}
+  
    </div>
 </div>
 </div>

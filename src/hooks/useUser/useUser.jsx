@@ -12,6 +12,7 @@ const useUser = () => {
             return response.json()
         }
     })
+
     return [isUser,refetch,isUserLoading];
 };
 
