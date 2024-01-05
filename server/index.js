@@ -54,12 +54,21 @@ mongoose.connect('mongodb+srv://shakileeecuet:Klz30X75ggYeAd0e@cluster0.df1ioxo.
 // application routes
 app.use('/user',userHandler)
 app.post('/upload_file',upload.single('file'),async(req,res)=>{
-  const {name,nationalid,slipmonth} = req.body
+  const {name,nationalid,slipmonth,amount,email} = req.body
   const {filename,path} = req.file
-  const newFile = new File({name,nationalid,slipmonth,filename,path})
+  const newFile = new File({name,nationalid,slipmonth,amount,filename,email,path,status:'pending',comment:''})
   const result = await newFile.save()
   res.send(result)
-  console.log(result)
+})
+
+
+
+// File Route
+
+// get all files
+app.get('/allfiles',async(req,res)=>{
+  const data =await File.find().sort({date:-1});
+  res.send(data)
 })
 
 // default error handler

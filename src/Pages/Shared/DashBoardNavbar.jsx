@@ -1,11 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai'
+import useUser from '../../hooks/useUser/useUser';
+import AvatarImg from '../../assets/placeholder.jpg';
+
+
 
 const DashBoardNavbar = () => {
+  const [isUser,refetch,] = useUser()
     const navlist = <>
-        <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/upload'>Upload</NavLink></li>
+        <li><NavLink to='/dashboard/profile'>Profile</NavLink></li>
+        <li><NavLink to='/dashboard/users'>Users</NavLink></li>
+        <li><NavLink to='/dashboard/history'>Payment History</NavLink></li>
     </>
     const [isOpen, setIsOpen] = useState(false)
     const toggleOpen = useCallback(() => {
@@ -38,11 +44,11 @@ const DashBoardNavbar = () => {
         >
           <AiOutlineMenu />
           <div>
-            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" className='rounded-full' alt='profile' height='30' width='30' />
-            </div>
+            <img src={isUser?.Image ||AvatarImg} className='rounded-full' alt='profile' height='30' width='30' />
+          </div>
   </div>
     {isOpen && (
-        <div className='absolute rounded-xl shadow-md w-[40vw] lg:w-[10vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm'>
+        <div className='absolute rounded-xl shadow-md w-[40vw] lg:w-[10vw] md:w-3/4 bg-white z-50 overflow-hidden right-0 top-12 text-sm'>
           <div className='flex flex-col cursor-pointer'>
             <Link
                  to='/'

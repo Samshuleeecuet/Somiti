@@ -13,13 +13,32 @@ const fileSchema = mongoose.Schema({
         type : String,
         require:true
     },
+    amount:{
+        type : String,
+        require:true
+    },
     filename:{
         type : String,
+        require:true
+    },
+    email:{
+        type: String,
         require:true
     },
     path: {
         type : String,
         require:true
+    },
+    updateHistory:{
+        type: Array,
+        default: []
+    },
+    status: {
+        type : String,
+        require:true
+    },
+    comment: {
+        type : String
     },
     date:{
         type : Date,

@@ -8,7 +8,8 @@ const User = new mongoose.model("User",userSchema)
 // get all the users
 
 router.get('/',async(req,res)=>{
-
+ const result = await User.find()
+ res.send(result)
 })
 
 
@@ -33,9 +34,6 @@ router.post('/',async(req,res)=>{
         
         return res.send({message: 'User Already Exist'})
     }
-    else if(existingNid){
-        return res.send({message: 'National Id Already Exist'})
-    }
     else{
         const newUser = new User(req.body)
         const result =  await newUser.save()
@@ -45,8 +43,17 @@ router.post('/',async(req,res)=>{
 
 // Update a user
 
-router.put('/',async(req,res)=>{
-    
+router.put('/:email',async(req,res)=>{
+    const email = req.params.email;
+    const data = req.body;
+    console.log(email,data)
+    if(data?.Role){
+        const updateRole = await User.updateOne({Email : email},{$set:{Role:data.Role}})
+        res.send(updateRole)
+    }else{
+        const updateStatus = await User.updateOne({Email : email},{$set:{Approved:data.Approved}})
+        res.send(updateStatus)
+    }
 })
 
 // Detele a user

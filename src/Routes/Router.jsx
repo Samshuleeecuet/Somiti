@@ -7,6 +7,8 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import DashBoardLayout from "../Layout/DashBoardLayout";
 import Profile from "../Pages/DashBoard/Profile/Profile";
+import Users from "../Pages/DashBoard/Users/Users";
+import PaymentHistory from "../Pages/DashBoard/Payment/PaymentHistory";
 
 
 const router = createBrowserRouter([
@@ -39,8 +41,16 @@ const router = createBrowserRouter([
       errorElement:<ErrorPage/>,
       children:[
         {
-          path:'',
+          path:'profile',
           element:<Profile/>
+        },
+        {
+          path:'users',
+          element:<Users/>
+        },
+        {
+          path:'history',
+          element:<PaymentHistory/>
         }
       ]
     }
