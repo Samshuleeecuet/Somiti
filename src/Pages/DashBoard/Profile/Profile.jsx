@@ -7,7 +7,6 @@ import PaymentHistory from './PaymentHistory';
 
 const Profile = () => {
     const [isUser,refetch,] = useUser()
-    console.log(isUser)
     return (
         <div>
             <div className="relative z-8 lg:h-30 md:h-52">

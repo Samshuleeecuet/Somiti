@@ -9,6 +9,7 @@ import DashBoardLayout from "../Layout/DashBoardLayout";
 import Profile from "../Pages/DashBoard/Profile/Profile";
 import Users from "../Pages/DashBoard/Users/Users";
 import PaymentHistory from "../Pages/DashBoard/Payment/PaymentHistory";
+import Notice from "../Pages/DashBoard/Notice/Notice";
 
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
         {
           path:'history',
           element:<PaymentHistory/>
+        },
+        {
+          path:'notice',
+          element:<Notice/>
         }
       ]
     }

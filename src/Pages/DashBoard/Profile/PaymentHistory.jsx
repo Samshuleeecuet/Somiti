@@ -15,7 +15,7 @@ const PaymentHistory = () => {
     const [isPayment,refetch,isPaymentLoading]= usePayment()
     const [Path,Setpath]= useState(null)
     const found = isPayment.filter(x => x.nationalid === isUser.Nationalid)
-    
+    console.log(isPayment)
     const handlepdf= (path)=>{
         Setpath(path)
     }
@@ -30,7 +30,7 @@ const PaymentHistory = () => {
             {
             found.length>0 &&  
             <div className="overflow-x-auto flex my-10">
-                <table className="table">
+                <table className="table table-xs table-pin-rows table-pin-cols">
                     {/* head */}
                     <thead>
                     <tr>
@@ -54,7 +54,7 @@ const PaymentHistory = () => {
                         <td>{x.amount}</td>
                         <td>{x.slipmonth}</td>
                         <td>{moment(x.date).format('DD-MM-YYYY')}</td>
-                        <td>{x.updateHistory[0]}</td>
+                        <td></td>
                         <td>{x.status}</td>
                         <td><BsFileEarmarkPdf onClick={()=>handlepdf(x.path)} className='text-xl text-red-700'/>
                         </td>
@@ -63,9 +63,11 @@ const PaymentHistory = () => {
                     }
                     </tbody>
                 </table>
-                <PdfViewer path={Path} />
             
             </div>
+            }
+            {
+                Path ? <PdfViewer path={Path} />: null
             }
             {/*Modal Box*/}
             <dialog id="my_modal_6" className="modal modal-bottom sm:modal-middle">

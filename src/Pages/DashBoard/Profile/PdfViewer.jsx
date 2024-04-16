@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Document, Page } from 'react-pdf';
-import pdf from '../../../../server/UploadFiles/class-routine-1704464816927.pdf';
 function PdfViewer({path}) {
   const [numPages, setNumPages] = useState();
   const [pageNumber, setPageNumber] = useState(1);

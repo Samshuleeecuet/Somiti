@@ -12,6 +12,7 @@ const DashBoardNavbar = () => {
         <li><NavLink to='/dashboard/profile'>Profile</NavLink></li>
         <li><NavLink to='/dashboard/users'>Users</NavLink></li>
         <li><NavLink to='/dashboard/history'>Payment History</NavLink></li>
+        <li><NavLink to='/dashboard/notice'>Notice</NavLink></li>
     </>
     const [isOpen, setIsOpen] = useState(false)
     const toggleOpen = useCallback(() => {
